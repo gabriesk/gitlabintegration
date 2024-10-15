@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="https://raw.githubusercontent.com/gabriesk/gitlabintegration/master/img/glpi_logo.png" width="300px"/>
+    <img src="https://raw.githubusercontent.com/gabriesk/gitlabintegration/master/img/logo.png" width="300px"/>
 </div>
 
 #
