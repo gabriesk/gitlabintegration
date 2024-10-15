@@ -1,12 +1,12 @@
 <?php
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+
+require '../../../inc/includes.php';
 
 Session::checkLoginUser();
 
-Html::header(PluginGitlabIntegrationProfiles::getTypeName(), $_SERVER['PHP_SELF'],
+Html::header(PluginGitlabProfiles_User::getTypeName(), $_SERVER['PHP_SELF'],
              "admin", "plugingitlabintegrationmenu", "profiles");
 
-PluginGitlabIntegrationProfiles::showForm();
+(new PluginGitlabProfiles_User)->showForm(0);
 
 Html::footer();

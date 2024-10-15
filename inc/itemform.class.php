@@ -136,9 +136,10 @@ class PluginGitlabIntegrationItemForm {
     *
     * @param array $options
     *
-    * @return Dropdown component
+    * @return int|string component
     */
-   static function dropdownProject(array $options = []) {
+   static function dropdownProject(array $options = []): int|string
+   {
       $p = [
          'name'     => 'project',
          'value'    => 0,
@@ -154,10 +155,11 @@ class PluginGitlabIntegrationItemForm {
    
       $values = []; 
 
-      $result = PluginGitlabIntegrationGitlabIntegration::getProjects();
+      $result = PluginGitlabIntegration::getProjects();
    
       foreach ($result as $key => $value) {
          $values[$value->id] = $value->name_with_namespace;
+          echo "<script>console.log('PHP: " . json_encode($values) . "');</script>";
       }
    
       return Dropdown::showFromArray($p['name'], $values, $p);

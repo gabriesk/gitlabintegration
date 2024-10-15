@@ -1,6 +1,6 @@
 <?php
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+global $DB;
+require '../../../inc/includes.php';
 
 Session::checkLoginUser();
 
@@ -16,7 +16,7 @@ if ($profileId) {
     if ($modo == 1) {
         $result = $DB->request('glpi_plugin_gitlab_profiles_users', ['profile_id' => [$profileId]]);    
         if ($result->count() > 0) {
-            $erro = "[" . $_SESSION["glpi_currenttime"] . "] glpiphplog.ERROR: PluginGitlabIntegrationProfiles::permissions() in profile.php line 10" . PHP_EOL;
+            $erro = "[" . $_SESSION["glpi_currenttime"] . "] glpiphplog.ERROR: PluginGitlabProfiles_User::permissions() in profile.php line 10" . PHP_EOL;
             $erro = $erro . "  ***PHP Notice: The selected profile already has permission: Profile Id: " . $profileId;
             PluginGitlabIntegrationEventLog::ErrorLog($erro);
     
@@ -52,7 +52,7 @@ if ($id) {
     
             Session::addMessageAfterRedirect(__('Permission removed with successfully!', 'gitlabintegration'));
         } else {
-            $erro = "[" . $_SESSION["glpi_currenttime"] . "] glpiphplog.ERROR: PluginGitlabIntegrationProfiles::permissions() in profile.php line 10" . PHP_EOL;
+            $erro = "[" . $_SESSION["glpi_currenttime"] . "] glpiphplog.ERROR: PluginGitlabProfiles_User::permissions() in profile.php line 10" . PHP_EOL;
             $erro = $erro . "  ***PHP Notice: The selected profile can't be deleted: Id: " . $id;
             PluginGitlabIntegrationEventLog::ErrorLog($erro);
     

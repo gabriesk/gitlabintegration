@@ -1,6 +1,6 @@
 <?php
-define('GLPI_ROOT', '../../..');
-include (GLPI_ROOT . "/inc/includes.php");
+global $DB;
+require '../../../inc/includes.php';
 
 Session::checkLoginUser();
 
@@ -13,12 +13,7 @@ $result = $DB->request('glpi_plugin_gitlab_integration', ['ticket_id' => [$ticke
 
 if ($result->count() > 0) {
     $DB->update(
-        'glpi_plugin_gitlab_integration', [
-           'gitlab_project_id'  => $selectedProject
-        ], [
-           'ticket_id' => $ticketId
-        ]
-    );
+        'glpi_plugin_gitlab_integration', ['gitlab_project_id'  => $selectedProject], ['ticket_id' => $ticketId]);
 
 } else {
     $DB->insert(
@@ -37,9 +32,10 @@ if (class_exists('PluginGitlabIntegrationParameters')) {
     $description = str_replace('&lt;', '<', $description);
     $description = str_replace('&gt;', '>', $description);
 
-    PluginGitlabIntegrationGitlabIntegration::CreateIssue($selectedProject, $title, $description);
+    PluginGitlabIntegration::CreateIssue($selectedProject, $title, $description);
 
-    PluginGitlabIntegrationEventLog::Log($ticketId, 'ticket', $_SESSION["glpi_currenttime"], 'issue', 4, sprintf(__('%2s created Issue', 'gitlabintegration'), $_SESSION["glpiname"]));
+    PluginGitlabIntegrationEventLog::Log($ticketId, 'ticket', $_SESSION["glpi_currenttime"], 'tracking', 4, sprintf(__('%2s created Issue', 'gitlabintegration'), $_SESSION["glpiname"]));
+    //PluginGitlabIntegrationEventLog::CreatedIssueLog();
 
     Session::addMessageAfterRedirect(__('Issue created successfully!', 'gitlabintegration'));
 } else {

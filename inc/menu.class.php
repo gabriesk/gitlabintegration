@@ -63,7 +63,7 @@ class PluginGitlabIntegrationMenu extends CommonGLPI {
         $menu['title'] = self::getMenuName();
         $menu['page']  = "$front_fields/profiles.php";
 
-        $itemtypes = ['PluginGitlabIntegrationProfiles' => 'profiles'];
+        $itemtypes = ['PluginGitlabProfiles_User' => 'profiles'];
 
         foreach ($itemtypes as $itemtype => $option) {
             $menu['options'][$option]['title']           = $itemtype::getTypeName(2);
