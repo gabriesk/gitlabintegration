@@ -33,23 +33,30 @@ along with GLPI. If not, see <http://www.gnu.org/licenses/>.
 class PluginGitlabIntegrationEventLog {
 
     /**
-    * Display contents at the begining of event log.
-    *
-    * @param $items_id, $type, $date, $service, $level, $message
-    *
-    * @return void
-    */
-    static public function Log($items_id, $type, $date, $service, $level, $message) {
+     * Display contents at the begining of event log.
+     *
+     * @param $items_id
+     * @param $type
+     * @param $date
+     * @param $service
+     * @param $level
+     * @param $message
+     * @return void
+     */
+    static public function Log($items_id, $type, $date, $service, $user_name, $level, $message): void
+    {
         global $DB;
 
         $DB->insert(
-            'glpi_events', [
+            'glpi_logs', [
+                'itemtype' => $type,
                 'items_id' => $items_id,
-                'type'     => $type,
-                'date'     => $date,
-                'service'  => $service,
-                'level'    => $level,
-                'message'  => $message
+                'itemtype_link' => 'User',
+                'linked_action' => 15,
+                'user_name' => $user_name,
+                'date_mod'     => $date,
+                'id_search_option'  => 5,
+                'new_value' => $level
             ]
         );
     }

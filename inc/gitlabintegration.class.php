@@ -30,7 +30,7 @@ along with GLPI. If not, see <http://www.gnu.org/licenses/>.
 /**
  * Summary of PluginGitlabIntegrationGitlabIntegration
  * */
-class PluginGitlabIntegrationGitlabIntegration {
+class PluginGitlabIntegration {
 
     /**
     * Display contents at create issue of gitlab selected project.
@@ -72,7 +72,7 @@ class PluginGitlabIntegrationGitlabIntegration {
     
            curl_close($curl);
         } catch (Exception $e) {
-            PluginGitlabIntegrationParameters::ErrorLog($e->getMessage());
+            PluginGitlabIntegrationEventLog::ErrorLog($e->getMessage());
         }
     
         $logIssue = "[ISSUE CREATED: IID: " . $iid . " PROJECT ID: " . $selectedProject . " TITLE: \"" . $title . "\" DESCRIPTION: \"" . $description . "\"]";
@@ -141,7 +141,7 @@ class PluginGitlabIntegrationGitlabIntegration {
     
             curl_close($curl);
         } catch (Exception $e) {
-            PluginGitlabIntegrationParameters::ErrorLog($e->getMessage());
+            PluginGitlabIntegrationEventLog::ErrorLog($e->getMessage());
         }
 
         return $iid;

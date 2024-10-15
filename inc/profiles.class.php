@@ -29,10 +29,10 @@ along with GLPI. If not, see <http://www.gnu.org/licenses/>.
 define('PLUGIN_ROOT', '../../..');
 
 /**
- * Summary of PluginGitlabIntegrationProfiles
+ * Summary of PluginGitlabIntegration
  * */
 
-class PluginGitlabIntegrationProfiles extends CommonDBTM {
+class PluginGitlabProfiles_User extends CommonDBTM {
    static $rightname = 'profiles';
    
    /**
@@ -46,24 +46,36 @@ class PluginGitlabIntegrationProfiles extends CommonDBTM {
       return self::canUpdate();
    }
 
-   /**
+
+
+    static function parameters(): string {
+        $ini_array = parse_ini_file('../gitlabintegration.ini');
+
+        echo "<script>console.log('PHP: " . json_encode($ini_array['GITLAB_URL']) . "');</script>";
+        return $ini_array['GITLAB_URL'];
+}
+
+
+    /**
     * Display contents the title of profiles Permission.
     *
     * @param void
     *
     * @return void
     */
+
    static function title() {
+       $url = self::parameters();
       echo '<script type="text/javascript" src="../js/buttonsFunctions.js"></script>';
       echo "<table class='tab_glpi'><tbody>";
       echo "<tr>";
       echo "<td width='45px'>";
-      echo "<a href='https://gitlab.stwautomacao.com.br' target='_blank'>";
-      echo "<img class='logo' src='".PLUGIN_ROOT."/plugins/gitlabintegration/img/just-logo.png' height='35px' alt='Gitlab STW' title='Gitlab STW'>";
+      echo "<a href=" . json_encode($url) . " target='_blank'>";
+      echo "<img class='logo' src='".PLUGIN_ROOT."/plugins/gitlabintegration/img/just-logo.png' height='35px' alt='Gitlab' title='Gitlab'>";
       echo "</a>";
       echo "</td>";
       echo "<td>";
-      echo "<a class='vsubmit' href='https://gitlab.stwautomacao.com.br' target='_blank'>Gitlab STW</a>";
+      echo "<a class='vsubmit' href=". json_encode($url) . " target='_blank'>Gitlab</a>";
       echo "</td>";
       echo "</tr>";
       echo "</tbody></table>";
@@ -126,11 +138,14 @@ class PluginGitlabIntegrationProfiles extends CommonDBTM {
     /**
     * Display contents the form body of profiles Permission.
     *
-    * @param void
+     * @param $ID
+     * @param array $options
+     * @param void
     *
     * @return void
     */
-   public static function showForm() {
+   public function showForm($ID, array $options = []): void
+   {
       echo '<div class="glpi_tabs new_form_tabs">';
       echo '   <div id="tabspanel" class="center-h">';
       echo '      <div class="center vertical ui-tabs ui-widget ui-widget-content ui-corner-all ui-tabs-vertical ui-helper-clearfix ui-corner-left">';
@@ -190,7 +205,7 @@ class PluginGitlabIntegrationProfiles extends CommonDBTM {
       $dropdown = self::dropdownActions(['value' => 'actions']); 
       echo '      </div>';
       echo '      <div id="button_confirm_action" style="margin:15px" class="body-dialog">';
-      echo '         <div class="primary-button" onClick="removePermission(' . $dropdown . ')">Post</div>';
+      echo '         <div class="primary-button" onClick="removePermission(' . $dropdown . ')">Confirmar</div>';
       echo '      </div>';
       echo '   </div>';
       echo '</div>';
@@ -209,7 +224,7 @@ class PluginGitlabIntegrationProfiles extends CommonDBTM {
       $tab[] = [
          'id'            => 1,
          'table'         => self::getTable(),
-         'field'         => 'profile',
+         'field'         => 'profile_id',
          'name'          => __("Profile", "gitlabintegration"),
          'massiveaction' => false,
       ];
@@ -331,6 +346,11 @@ class PluginGitlabIntegrationProfiles extends CommonDBTM {
                $user    = $row['firstname_user'] . ' ' . $row['realname_user'];
                $created = $row['created_at'];
                $id      = $row['id'];
+
+               echo "<script>console.log('PHP: " . json_encode($row) . "');</script>";
+                echo "<script>console.log('PHP: " . json_encode($user) . "');</script>";
+                echo "<script>console.log('PHP: " . json_encode($created) . "');</script>";
+                echo "<script>console.log('PHP: " . json_encode($id) . "');</script>";
             
                echo '<tr class="tab_bg_2">';
                echo '<td width="10" valign="top">';
